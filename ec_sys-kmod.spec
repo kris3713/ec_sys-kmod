@@ -126,7 +126,8 @@ for kernel_version in %{?kernel_versions} ; do
     cp -a ${kernel_src_dir}/{.config,Module.symvers,System.map} ./_kmod_build_${kernel_v}/
 
     # Set correct extra version in Makefile
-    sed -i 's/^EXTRAVERSION.*$/EXTRAVERSION=-'"${kernel_extra}"'/' "./_kmod_build_${kernel_v}/Makefile"
+    sed -i 's/^EXTRAVERSION.*$/EXTRAVERSION=-'"${kernel_patch}%{dist}.%{_arch}"'/' \
+        "./_kmod_build_${kernel_v}/Makefile"
 
     # Patch .config to enable the module
     sed -i -r 's/^.*\b('"%{kernel_config_entry}"')\b.*$\b/\1=m/' "./_kmod_build_${kernel_v}/.config"
